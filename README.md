@@ -1,7 +1,7 @@
 # projetoestatisticaR
 Realizado no MBA Ciência de dados &amp; IA - SENAC-PE
 
-#Carregar dados
+# Carregar dados
 dados <- read.csv("C://Users//Marialua//Downloads//Grupo 7 - Consumo - Cerveja.csv", sep=";", header = TRUE) 
 summary(dados)
 
@@ -10,34 +10,34 @@ names(dados)
 dim(dados)
 str(dados)
 
-#Identifica as linhas que apresenta valores faltantes
+# Identifica as linhas que apresenta valores faltantes
 complete.cases(dados)
 
-#Variável Temperatura média 
+# Variável Temperatura média 
 dados_numericos_temperaturamedia <- as.numeric(dados$TemperaturaMedia)
  mean(dados_numericos_temperaturamedia) #21.22º
 median(dados_numericos_temperaturamedia) #21.38º
 sd(dados_numericos_temperaturamedia) #3.18
  
-#Variável temperatura mínima 
+# Variável temperatura mínima 
 dados_numericos_temperaturaminima <- as.numeric(dados$TemperaturaMin)
 mean(dados_numericos_temperaturaminima) #16.46º
 median(dados_numericos_temperaturaminima) #17.9º
 sd(dados_numericos_temperaturaminima) #2.87
 
-#Variável temperatura máxima 
+# Variável temperatura máxima 
 dados_numerico_temperaturamaxima <- as.numeric(dados$TemperaturaMax)
 mean(dados_numerico_temperaturamaxima) #26.61º
 median(dados_numerico_temperaturamaxima) #26.9º
 sd(dados_numerico_temperaturamaxima) #4.31
 
-#Variável preciptação
+# Variável preciptação
 dados_numericos_preciptação <- as.numeric(dados$Precipitacao)
 mean(dados_numericos_preciptação) #5.19
 median(dados_numericos_preciptação) #0
 sd(dados_numericos_preciptação) #12.41
 
-#Variável Final.de.semana
+# Variável Final.de.semana
 # Transformar os levels do fator "Final.de.Semana" em "Sim" e "Não"
 dados$Final.de.Semana <- factor(dados$Final.de.Semana)
 print(levels(dados$Final.de.Semana))
@@ -53,22 +53,22 @@ porcentagem_nao <- prop.table(tabela_frequencia)["Não"] * 100
 print(porcentagem_sim)
 print(porcentagem_nao)
 
-#Variável consumo Cerveja
+# Variável consumo Cerveja
 mean(dados$ConsumoCerveja)
 median(dados$ConsumoCerveja)
 sd(dados$ConsumoCerveja)
 
-#Variável data:
+# Variável data:
 dados$Data <- as.Date(dados$Data, format = "%d/%m/%Y")
 
 dados$Data <- format(dados$Data, "%d-%m-%Y")  
 print(dados$Data)
 
-#Correlações
+# Correlações
 install.packages('dplyr')
 library(dplyr)  #para realizar manipulações de dados
 
-#temperatura média com temperatura minima
+# temperatura média com temperatura minima
 cor_tempmedia_tempminima <- cor(dados$TemperaturaMedia, dados$TemperaturaMin) #0.8
 cor_tempmaxima_tempminima <- cor(dados$TemperaturaMax, dados$TemperaturaMin) #0,6
 cor_tempmaxima_precip <- cor(dados$TemperaturaMax, dados$Precipitacao) #-0.04
@@ -78,20 +78,20 @@ consumo_fds <- dados$ConsumoCerveja[dados$Final.de.Semana == "Sim"]
 consumo_fds_neg <- dados$ConsumoCerveja[dados$Final.de.Semana == "Não"]
 teste_t <- t.test(consumo_fds, consumo_fds_neg) #p-value < 2.2e-16
 
-#matriz de correlação entre temperaturas
+# matriz de correlação entre temperaturas
 install.packages("corrplot")
 library(corrplot)
 matriz_correlacao <- cor(temperaturas)
 corrplot(matriz_correlacao, method = "circle")
 
-matriz_cor_prec <- cor(dados_numericos_preciptação, temperaturas)
+# matriz_cor_prec <- cor(dados_numericos_preciptação, temperaturas)
 corrplot(matriz_cor_prec, method = "circle")
 
 install.packages("GGally")
 library(GGally)
 ggpairs(temperaturas)
 
-#Análise curtose
+# Análise curtose
 install.packages("e1071")
 library(e1071)
 temperatura_minima <- kurtosis(dados_numericos_temperaturaminima) #-0.5
@@ -100,14 +100,14 @@ curtose_preciptação <- kurtosis(dados_numericos_preciptação) #17.4
 curtose_consumo <- kurtosis(dados$ConsumoCerveja) #-0.4
 curtose_temperatura_media <- kurtosis(dados_numericos_temperaturamedia)
 
-#Análise assimetria
+# Análise assimetria
 assimetria_temperaturaminima <- skewness(dados_numericos_temperaturaminima) #-0.2
 assimetria_temperaturamaxima <- skewness(dados_numerico_temperaturamaxima) #-0.15
 assimetria_preciptação <- skewness(dados_numericos_preciptação) #3.74
 assimetria_consumo <- skewness(dados$ConsumoCerveja) #0.26
 assimetria_temperaturamedia <- skewness(dados_numericos_temperaturamedia)
 
-#Gráficos
+# Gráficos
 
 install.packages("ggplot2")
 library(ggplot2)
@@ -155,9 +155,9 @@ barplot(porcentagens,
 
 
 
-#Aplicando inferências
+# Aplicando inferências
 
-#Testes de hipóteses#
+# Testes de hipóteses#
 #se a temperatura média, mínima ou máxima tem um efeito significativo no consumo de cerveja.
 
 shapiro.test(dados$ConsumoCerveja) # p-value = 0.005779 H1. Ou seja, há evidências de que os dados de consumo de cerveja não seguem uma distribuição normal.
